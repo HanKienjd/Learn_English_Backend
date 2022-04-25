@@ -1,4 +1,3 @@
-// set environment variables
 require('dotenv').config();
 
 // import third-party
@@ -25,7 +24,7 @@ const passportConfig = require('./src/middlewares/passport.middleware');
 // ================== set port ==================
 const app = express();
 const normalizePort = (port) => parseInt(port, 10);
-const PORT = normalizePort(process.env.PORT || 3000);
+const PORT = normalizePort(process.env.PORT || 8089);
 
 // ================== setup ==================
 app.use(express.static(path.join(__dirname, '/src/build')));
@@ -51,7 +50,7 @@ if (!dev) {
 
 // ================== Connect mongodb with mongoose ==================
 const mongoose = require('mongoose');
-const MONGO_URL = dev ? process.env.MONGO_URL_LOCAL : process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGO_URL;
 
 mongoose.connect(MONGO_URL, {
   useUnifiedTopology: true,
