@@ -19,6 +19,7 @@ const commonApi = require('./src/apis/common.api');
 const sentenceApi = require('./src/apis/sentence.api');
 const blogApi = require('./src/apis/blog.api');
 const highscoreApi = require('./src/apis/highscore.api');
+const topicApi = require('./src/apis/topic.api');
 const passportConfig = require('./src/middlewares/passport.middleware');
 
 // ================== set port ==================
@@ -78,6 +79,7 @@ app.use(`${BASE_URL}/flashcard`, flashcardApi);
 app.use(`${BASE_URL}/common`, commonApi);
 app.use(`${BASE_URL}/sentence`, sentenceApi);
 app.use(`${BASE_URL}/blog`, blogApi);
+app.use(`${BASE_URL}/topic`, topicApi);
 app.use(
   `${BASE_URL}/highscore`,
   passportConfig.jwtAuthentication,
