@@ -25,7 +25,7 @@ exports.postContributeWord = async (req, res, next) => {
     // upload description picture if available
     let pictureUrl = null;
     if (picture) {
-      pictureUrl = await uploadImage(picture, 'dynonary/words');
+      pictureUrl = await uploadImage(picture, 'amonino/words');
     }
 
     // create the new word

@@ -144,7 +144,7 @@ exports.updatePassword = async (email = '', newPassword = '') => {
 
 exports.updateAvt = async (username = '', avtSrc = '') => {
   try {
-    const picture = await uploadImage(avtSrc, 'dynonary/user-avt');
+    const picture = await uploadImage(avtSrc, 'amonino/user-avt');
     const isUpdated = await UserModel.updateOne({ username }, { avt: picture });
     if (isUpdated.n && isUpdated.ok) return picture;
 
