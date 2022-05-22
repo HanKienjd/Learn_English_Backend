@@ -2,6 +2,6 @@ module.exports = {
   bracketSameLine: false,
   singleQuote: true,
   trailingComma: 'all',
-  semi: false,
+  semi: true,
   arrowParens: 'avoid',
 }
