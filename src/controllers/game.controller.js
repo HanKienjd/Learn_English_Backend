@@ -26,7 +26,9 @@ exports.getWordPackCWG = async (req, res, next) => {
     return res.status(200).json({ wordPack });
   } catch (error) {
     console.error('GET WORD PACK CWG ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(503).json({
+      message: 'An error occurred, please try again later !'
+    });
   }
 };
 
@@ -47,7 +49,9 @@ exports.getWordPackWMG = async (req, res, next) => {
     return res.status(200).json({ wordPack: [] });
   } catch (error) {
     console.error('GET WORD PACK WMG ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(503).json({
+      message: 'An error occurred, please try again later !'
+    });
   }
 };
 
@@ -68,6 +72,8 @@ exports.getWordPackFS = async (req, res, next) => {
     return res.status(200).json({ wordPack });
   } catch (error) {
     console.error('GET WORD PACK FAST GAME ERROR: ', error);
-    return res.status(500).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(500).json({
+      message: 'An error occurred, please try again later !'
+    });
   }
 };

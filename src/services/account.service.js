@@ -163,7 +163,7 @@ exports.updateProfile = async (
     if (username.toLowerCase() !== newUsername.toLowerCase()) {
       const isExist = await UserModel.exists({ username: newUsername });
       if (isExist) {
-        return { status: false, message: 'username đã được sử dụng' };
+        return { status: false, message: 'Username already in use' };
       }
     }
 

@@ -1,6 +1,6 @@
 const WordModel = require('../models/word.model');
 
-exports.createNewWord = async (wordInfo) => {
+exports.createNewWord = async wordInfo => {
   try {
     const newWord = await WordModel.create({ ...wordInfo });
 
@@ -53,6 +53,14 @@ exports.getFavoriteList = async (rawFavorites = []) => {
     }
 
     return list;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.isExistWordById = (wordId) => {
+  try {
+    return WordModel.exists({ _id: wordId });
   } catch (error) {
     throw error;
   }

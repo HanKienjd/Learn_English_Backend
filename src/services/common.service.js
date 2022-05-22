@@ -96,12 +96,12 @@ exports.checkVerifyCode = async (code = '', email = '') => {
     if (!item) {
       return {
         status: false,
-        message: 'Không tồn tại mã xác thực nào cho email : ' + email,
+        message: 'No verification code exists for email : ' + email,
       }
     }
 
     if (item.code !== code) {
-      return { status: false, message: 'Mã xác thực không đúng.' }
+      return { status: false, message: 'The verification code is not correct.' }
     }
 
     const d = new Date().getTime(),
@@ -110,7 +110,7 @@ exports.checkVerifyCode = async (code = '', email = '') => {
     if (d - createdDate > MAX.VERIFY_TIME) {
       return {
         status: false,
-        message: 'Mã xác thực đã hết hiệu lực. Hãy lấy một mã khác',
+        message: "The verification code has expired. Let's get another code",
       }
     }
 
