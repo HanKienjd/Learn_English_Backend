@@ -63,6 +63,14 @@ exports.getWordPack = async (
     throw error
   }
 }
+exports.getCountWordPackByTopicId = async (topicId) => {
+  try {
+    const countTotalWordByTopic = await WordModel.countDocuments({ topics: { $in: [topicId] } });
+    return countTotalWordByTopic
+  } catch (error) {
+    throw error
+  }
+}
 
 exports.countWordPack = async (packInfo = {}) => {
   try {

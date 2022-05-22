@@ -19,7 +19,7 @@ const commonApi = require('./src/apis/common.api');
 const sentenceApi = require('./src/apis/sentence.api');
 const blogApi = require('./src/apis/blog.api');
 const highscoreApi = require('./src/apis/highscore.api');
-const topicApi = require('./src/apis/topic.api');
+const topicApi = require('./src/apis/topics.api');
 const passportConfig = require('./src/middlewares/passport.middleware');
 
 // ================== set port ==================

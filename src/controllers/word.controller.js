@@ -88,6 +88,7 @@ exports.getWordPack = async (req, res) => {
   }
 };
 
+
 exports.getSearchWord = async (req, res) => {
   try {
     const { word, isCompact = false } = req.query;

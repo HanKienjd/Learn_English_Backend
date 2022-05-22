@@ -1,10 +1,11 @@
-const TopicModel = require('../models/topic.model');
-
+const TopicModel = require('../models/topics.model');
+const WordModel = require('../models/word.model');
+const flashCardsLearned = require('../models/flashCardsLearned.model');
 
 exports.getTopicListService = async () => {
   try {
-    const topics = await TopicModel.find({}).select('-html');
-    return topics;
+    const data = await TopicModel.find({});
+    return data;
   } catch (error) {
     throw error;
   }
@@ -30,8 +31,8 @@ exports.deleteTopicService = async (_id) => {
 
 exports.updateTopicService = async (_id, topic) => {
   try {
-    const updatedTopic = await TopicModel.findByIdAndUpdate(_id, topic);
-    return updatedTopic;
+    await TopicModel.findByIdAndUpdate(_id, topic);
+    return { message: 'Cập nhật thành công' };
   } catch (error) {
     throw error;
   }

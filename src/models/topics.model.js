@@ -9,10 +9,10 @@ const topicSchema = new Schema({
     required: true,
     trim: true,
   },
-  total: {
-    type: Number,
-    default: 0,
-  
+  image: {
+    type: String,
+    trim: true,
+    default: null,
   },
   createdAt: {
     type: Date,
@@ -22,6 +22,21 @@ const topicSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  topicId: {
+    type: String,
+    required: true,
+    enum: Array.from({ length: NUM_OF_TOPICS }, (_, key) => key.toString())
+  },
+  wordLearn: {
+    type: 'Number',
+    ref: 'flashCardsLearned',
+    
+
+  },
+  totalWord: {
+    type: 'Number',
+    ref: 'word',
+  }
 });
 
 const TopicModel = mongoose.model('topic', topicSchema);
