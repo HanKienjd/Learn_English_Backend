@@ -144,7 +144,7 @@ exports.updatePassword = async (email = '', newPassword = '') => {
 
 exports.updateAvt = async (username = '', avtSrc = '') => {
   try {
-    const picture = await uploadImage(avtSrc, 'dynonary/user-avt');
+    const picture = await uploadImage(avtSrc, 'amonino/user-avt');
     const isUpdated = await UserModel.updateOne({ username }, { avt: picture });
     if (isUpdated.n && isUpdated.ok) return picture;
 
@@ -163,7 +163,7 @@ exports.updateProfile = async (
     if (username.toLowerCase() !== newUsername.toLowerCase()) {
       const isExist = await UserModel.exists({ username: newUsername });
       if (isExist) {
-        return { status: false, message: 'username đã được sử dụng' };
+        return { status: false, message: 'Username already in use' };
       }
     }
 

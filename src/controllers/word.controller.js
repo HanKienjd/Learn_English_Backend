@@ -25,7 +25,7 @@ exports.postContributeWord = async (req, res, next) => {
     // upload description picture if available
     let pictureUrl = null;
     if (picture) {
-      pictureUrl = await uploadImage(picture, 'dynonary/words');
+      pictureUrl = await uploadImage(picture, 'amonino/words');
     }
 
     // create the new word
@@ -38,12 +38,16 @@ exports.postContributeWord = async (req, res, next) => {
     });
 
     if (isCreateSuccess) {
-      return res.status(200).json({ message: 'Tạo từ mới thành công' });
+      return res.status(200).json({ message: 'Create new words successfully' });
     }
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(503).json({
+      message: 'An error occurred, please try again later !'
+    });
   } catch (error) {
     console.error('POST CONTRIBUTE WORD ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(503).json({
+      message: 'An error occurred, please try again later !'
+    });
   }
 };
 
@@ -78,7 +82,9 @@ exports.getWordPack = async (req, res) => {
     return res.status(200).json({ packList });
   } catch (error) {
     console.error('WORD GET WORD PACK ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(503).json({
+      message: 'An error occurred, please try again later !'
+    });
   }
 };
 
@@ -95,7 +101,9 @@ exports.getSearchWord = async (req, res) => {
     return res.status(200).json({ packList: list });
   } catch (error) {
     console.error('GET SEARCH WORD ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(503).json({
+      message: 'An error occurred, please try again later !'
+    });
   }
 };
 
@@ -108,7 +116,9 @@ exports.getWordDetails = async (req, res, next) => {
     }
   } catch (error) {
     console.error('GET WORD DETAILS ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(503).json({
+      message: 'An error occurred, please try again later !'
+    });
   }
 };
 
@@ -141,6 +151,8 @@ exports.getUserFavoriteList = async (req, res, next) => {
     return res.status(200).json({ packList });
   } catch (error) {
     console.error(' ERROR: ', error);
-    return res.status(500).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(500).json({
+      message: 'An error occurred, please try again later !'
+    });
   }
 };
