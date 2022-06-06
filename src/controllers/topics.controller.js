@@ -19,11 +19,17 @@ exports.getTopicList = async (req, res, next) => {
         const totalLearned =
           wordsLearned.find(word => word.topicId === item.topicId)?.words
             .length || 0;
+        wordIdsLearned =
+          wordsLearned
+            .find(word => word.topicId === item.topicId)
+            ?.words.map(word => word.wordId._id) || [];
+
         return {
           ...item.toObject(),
           total,
           learned: totalLearned,
           isDone: totalLearned === total,
+          wordIdsLearned,
         };
       }),
     );
