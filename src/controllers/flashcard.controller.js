@@ -99,7 +99,7 @@ const handleGetLearnedWordOfTopic = async (req, res) => {
   const isExistData = await isExistDataOfUser(accountId);
 
   if (!isExistData) {
-    return res.status(200).json([]);
+    return [];
   }
 
   const wordsLearned = await getAllLearnedWords(accountId);
@@ -107,7 +107,7 @@ const handleGetLearnedWordOfTopic = async (req, res) => {
   const result = wordsLearned.find(topic => topic.topicId === topicId);
 
   if (!result) {
-    return res.status(200).json([]);
+    return [];
   }
 
   result.words = result.words.sort(
