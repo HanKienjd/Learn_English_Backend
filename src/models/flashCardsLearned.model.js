@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const flashCardsLearned = new Schema({
   accountId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
     ref: 'account',
   },
@@ -11,14 +11,14 @@ const flashCardsLearned = new Schema({
     {
       topicId: {
         type: String,
-        required: true
+        required: true,
       },
       words: [
         {
           wordId: {
             type: Schema.Types.ObjectId,
             required: true,
-            ref: 'word'
+            ref: 'word',
           },
           createdAt: {
             type: Date,
@@ -30,9 +30,9 @@ const flashCardsLearned = new Schema({
             required: true,
             default: new Date(),
           },
-        }
-      ]
-    }
+        },
+      ],
+    },
   ],
 });
 
