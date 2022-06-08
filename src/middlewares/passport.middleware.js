@@ -17,7 +17,7 @@ exports.jwtAuthentication = async (req, res, next) => {
       !(req.cookies && req.cookies.__session);
 
     if (isTokenEmpty) {
-      return next();
+      throw new Error('Token is empty');
     }
 
     let token = null;
@@ -37,7 +37,7 @@ exports.jwtAuthentication = async (req, res, next) => {
 
     // if not exist cookie[access_token] -> isAuth = false -> next
     if (!token) {
-      return next();
+      throw new Error('Token is empty');
     }
 
     // verify jwt
