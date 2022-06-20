@@ -1,7 +1,8 @@
 const {
   updateTop,
   getLeaderboardWithName,
-} = require('../services/hightscore.service');
+	getLeaderBoards
+} = require('../services/rank.service');
 
 exports.putUpdateHighScore = async (req, res, next) => {
   try {
@@ -24,14 +25,13 @@ exports.putUpdateHighScore = async (req, res, next) => {
 
 exports.getLeaderboard = async (req, res, next) => {
   try {
-    const { name } = req.query;
-    if (!Boolean(name)) {
-      return res.status(400).json({ message: 'failed' });
+    const { page, limit} = req.query;
+    if (!Boolean(page, limit)) {
+      return res.status(404).json({ message: 'missing params' });
     }
+    const data = await getLeaderBoards({page, limit});
 
-    const list = await getLeaderboardWithName(name);
-
-    return res.status(200).json({ list });
+    return res.status(200).json(data);
   } catch (error) {
     console.error('GET LEADERBOARD ERROR: ', error);
     return res.status(500).json({

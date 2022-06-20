@@ -18,7 +18,7 @@ const flashcardApi = require('./src/apis/flashcard.api');
 const commonApi = require('./src/apis/common.api');
 const sentenceApi = require('./src/apis/sentence.api');
 const blogApi = require('./src/apis/blog.api');
-const highscoreApi = require('./src/apis/highscore.api');
+const rankApi = require('./src/apis/rank.api');
 const topicApi = require('./src/apis/topics.api');
 const passportConfig = require('./src/middlewares/passport.middleware');
 
@@ -33,20 +33,20 @@ app.use(express.static(path.join(__dirname, '/src/build')));
 const dev = app.get('env') !== 'production';
 
 if (!dev) {
-  app.disable('x-powered-by');
-  app.use(morgan('common'));
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/src/build', 'index.html'));
-  });
+	app.disable('x-powered-by');
+	app.use(morgan('common'));
+	app.get('/', (req, res) => {
+		res.sendFile(path.join(__dirname, '/src/build', 'index.html'));
+	});
 
-  // Auto wake up heroku
-  app.get('/wakeup-heroku', (req, res) => res.send('ok'));
-  const timer = 25 * 60 * 1000; // 25 minutes
-  setInterval(() => {
-    https.get('https://english-apis.herokuapp.com/wakeup-heroku');
-  }, timer);
+	// Auto wake up heroku
+	app.get('/wakeup-heroku', (req, res) => res.send('ok'));
+	const timer = 25 * 60 * 1000; // 25 minutes
+	setInterval(() => {
+		https.get('https://english-apis.herokuapp.com/wakeup-heroku');
+	}, timer);
 } else {
-  app.use(morgan('dev'));
+	app.use(morgan('dev'));
 }
 
 // ================== Connect mongodb with mongoose ==================
@@ -54,9 +54,9 @@ const mongoose = require('mongoose');
 const MONGO_URL = process.env.MONGO_URL;
 
 mongoose.connect(MONGO_URL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  useCreateIndex: true,
+	useUnifiedTopology: true,
+	useNewUrlParser: true,
+	useCreateIndex: true,
 });
 
 // ================== config ==================
@@ -67,7 +67,7 @@ app.use(cors(corsConfig));
 
 // ================== Listening ... ==================
 app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT} !!`);
+	console.log(`Server is listening on port ${PORT} !!`);
 });
 
 // ================== Apis ==================
@@ -81,11 +81,10 @@ app.use(`${BASE_URL}/sentence`, sentenceApi);
 app.use(`${BASE_URL}/blog`, blogApi);
 app.use(`${BASE_URL}/topic`, topicApi);
 app.use(
-  `${BASE_URL}/highscore`,
-  passportConfig.jwtAuthentication,
-  highscoreApi,
+	`${BASE_URL}/rank`,
+	rankApi,
 );
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/src/build', 'index.html'));
+	res.sendFile(path.join(__dirname, '/src/build', 'index.html'));
 });

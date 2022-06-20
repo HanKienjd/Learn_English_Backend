@@ -48,30 +48,25 @@ exports.updateTop = async (accountId, name, score) => {
   }
 };
 
-exports.getLeaderboardWithName = async (name = '') => {
-  try {
-    const highscores = await HighscoreModel.findOne({ name });
-    if (!Boolean(highscores)) {
-      return [];
-    }
-    const { top } = highscores;
-    const l = top.length;
-    let topList = [];
-
-    for (let i = 0; i < l; ++i) {
-      const { name, avt } = await UserModel.findOne({
-        accountId: top[i].accountId,
-      }).select('name avt -_id');
-
-      topList.push({
-        name: name || 'Anonymous',
-        avt,
-        score: top[i].score,
-      });
-    }
-
-    return topList;
-  } catch (error) {
-    throw error;
-  }
+exports.getLeaderBoards = async ({page, limit}) => {
+	try{
+		const rankers = await HighscoreModel.find({}).select('name top _id');
+		if(!Boolean(rankers)){
+			return [];
+		}
+		let data = [];
+		for(let i = 0; i < rankers.length; i++){
+			const {avt} = await UserModel.findOne({accountId :rankers[i].top[0].accountId }).select('avt');
+			data.push({
+				name: rankers[i].name,
+				score: rankers[i].top[0].score,
+				accountId: rankers[i].top[0].accountId,
+				avatar: avt,
+			});
+		}
+		return data;
+	}
+	catch(error){
+		throw error;
+	}
 };
