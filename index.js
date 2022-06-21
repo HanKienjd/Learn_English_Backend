@@ -24,7 +24,7 @@ const passportConfig = require('./src/middlewares/passport.middleware');
 
 // ================== set port ==================
 const app = express();
-const normalizePort = (port) => parseInt(port, 10);
+const normalizePort = port => parseInt(port, 10);
 const PORT = normalizePort(process.env.PORT || 8089);
 
 // ================== setup ==================
@@ -80,6 +80,7 @@ app.use(`${BASE_URL}/common`, commonApi);
 app.use(`${BASE_URL}/sentence`, sentenceApi);
 app.use(`${BASE_URL}/blog`, blogApi);
 app.use(`${BASE_URL}/topic`, topicApi);
+app.use(`${BASE_URL}/rank`, rankApi);
 app.use(
 	`${BASE_URL}/rank`,
 	rankApi,

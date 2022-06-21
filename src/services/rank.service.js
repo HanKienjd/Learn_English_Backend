@@ -17,23 +17,21 @@ exports.updateTop = async (accountId, name, score) => {
     let newTops = [];
     if (!Boolean(tops)) {
       newTops.push({ accountId, score: Number(score) });
-      HighscoreModel.create({
+      return HighscoreModel.create({
         name,
         unit,
         top: newTops,
       });
     } else {
       const index = tops.top.findIndex(
-        (i) => i.accountId.toString() === accountId.toString(),
+        i => i.accountId.toString() === accountId.toString(),
       );
 
       if (index === -1) {
         tops.top.push({ accountId, score: Number(score) });
       } else {
         const item = tops.top[index];
-        if (Number(item.score) < Number(score)) {
-          tops.top[index].score = score;
-        }
+        item.score += score;
       }
       newTops = tops.top;
 
@@ -42,31 +40,37 @@ exports.updateTop = async (accountId, name, score) => {
         .slice(0, MAX_TOP);
 
       await HighscoreModel.updateOne({ name }, { top: newTops });
+      return true;
     }
   } catch (error) {
     throw error;
   }
 };
 
-exports.getLeaderBoards = async ({page, limit}) => {
-	try{
-		const rankers = await HighscoreModel.find({}).select('name top _id');
-		if(!Boolean(rankers)){
-			return [];
-		}
-		let data = [];
-		for(let i = 0; i < rankers.length; i++){
-			const {avt} = await UserModel.findOne({accountId :rankers[i].top[0].accountId }).select('avt');
-			data.push({
-				name: rankers[i].name,
-				score: rankers[i].top[0].score,
-				accountId: rankers[i].top[0].accountId,
-				avatar: avt,
-			});
-		}
-		return data;
-	}
-	catch(error){
-		throw error;
-	}
+exports.getLeaderboardWithName = async (name = '') => {
+  try {
+    const highscores = await HighscoreModel.findOne({ name });
+    if (!Boolean(highscores)) {
+      return [];
+    }
+    const { top } = highscores;
+    const l = top.length;
+    let topList = [];
+
+    for (let i = 0; i < l; ++i) {
+      const { name, avt } = await UserModel.findOne({
+        accountId: top[i].accountId,
+      }).select('name avt -_id');
+
+      topList.push({
+        name: name || 'Anonymous',
+        avatar: avt,
+        score: top[i].score,
+      });
+    }
+
+    return topList;
+  } catch (error) {
+    throw error;
+  }
 };
