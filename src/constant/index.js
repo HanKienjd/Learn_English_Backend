@@ -44,4 +44,8 @@ exports.REVIEW_STATUS_LOGS = {
   CANCELLED: 'cancelled',
 };
 
+exports.GAMES = {
+  PUZZLE: 'puzzle',
+};
+
 exports.NUM_WORDS_LEARN_IN_REVIEW = 5;
