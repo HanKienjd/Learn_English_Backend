@@ -53,7 +53,9 @@ exports.getLeaderboardWithName = async (name = '') => {
     if (!Boolean(highscores)) {
       return [];
     }
-    const { top } = highscores;
+    let { top } = highscores;
+    top.sort((a, b) => b.score - a.score);
+
     const l = top.length;
     let topList = [];
 
@@ -63,9 +65,11 @@ exports.getLeaderboardWithName = async (name = '') => {
       }).select('name avt -_id');
 
       topList.push({
+        accountId: `${top[i].accountId}`,
         name: name || 'Anonymous',
         avatar: avt,
         score: top[i].score,
+        rank: i + 1
       });
     }
 

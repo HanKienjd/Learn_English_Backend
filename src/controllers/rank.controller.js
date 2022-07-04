@@ -29,13 +29,18 @@ exports.putUpdateHighScore = async (req, res, next) => {
 exports.getLeaderboard = async (req, res, next) => {
   try {
     const { name } = req.query;
+    const { accountId } = req.user;
     if (!Boolean(name)) {
       return res.status(400).json({ message: 'failed' });
     }
 
-    const list = await getLeaderboardWithName(name);
+    const ranks = await getLeaderboardWithName(name);
+    const rankOfUser = ranks.find(r => r.accountId == accountId);
 
-    return res.status(200).json({ list });
+    return res.status(200).json({
+      ranks,
+      rankOfUser: rankOfUser || undefined,
+    });
   } catch (error) {
     console.error('GET LEADERBOARD ERROR: ', error);
     return res.status(500).json({
