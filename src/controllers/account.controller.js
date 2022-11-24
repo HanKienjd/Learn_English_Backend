@@ -24,6 +24,7 @@ const jwtConfig = require('../configs/jwt.config');
 const express = require('express');
 const app = express();
 const mailConfig = require('../configs/mail.config');
+const {decryptedData} = require('../middlewares/rsa.middleware');
 const {
   saveVerifyCode,
   checkVerifyCode,
@@ -56,7 +57,6 @@ exports.postRegisterAccount = async (req, res) => {
     // create an user
     const username = createUsername(email, newAccountId);
     const newUser = await createUser(newAccountId, username, name);
-    console.log('newUser :', newUser);
     if (!newUser) {
       return res
         .status(409)
@@ -76,7 +76,7 @@ exports.postLogin = async (req, res) => {
   try {
     const email = req.body.email?.toLowerCase();
     const { password } = req.body;
-
+    const passwordDecrypt = decryptedData(password);
     // check account existence
     const account = await findAccount(email);
     if (!account) {
@@ -84,20 +84,20 @@ exports.postLogin = async (req, res) => {
     }
 
     // check password
-    const isMatch = await bcrypt.compare(password, account.password);
+    const isMatch = await bcrypt.compare(passwordDecrypt, account.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Incorrect password' });
     }
 
     // set cookie with jwt
     const token = await jwtConfig.encodedToken(
-      process.env.JWT_SECRET_KEY || 'amonino-serect',
+      process.env.JWT_SECRET_KEY.replace(/\\n/gm, '\n'),
       { accountId: account._id },
     );
 
     return res.status(200).json({
       message: 'success',
-      token,
+      // token,
     });
   } catch (error) {
     console.error('POST REGISTER ACCOUNT ERROR: ', error);
