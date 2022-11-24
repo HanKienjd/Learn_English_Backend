@@ -24,6 +24,7 @@ const jwtConfig = require('../configs/jwt.config');
 const express = require('express');
 const app = express();
 const mailConfig = require('../configs/mail.config');
+const {decryptedData} = require('../middlewares/rsa.middleware');
 const {
   saveVerifyCode,
   checkVerifyCode,
@@ -56,7 +57,6 @@ exports.postRegisterAccount = async (req, res) => {
     // create an user
     const username = createUsername(email, newAccountId);
     const newUser = await createUser(newAccountId, username, name);
-    console.log('newUser :', newUser);
     if (!newUser) {
       return res
         .status(409)
@@ -76,6 +76,7 @@ exports.postLogin = async (req, res) => {
   try {
     const email = req.body.email?.toLowerCase();
     const { password } = req.body;
+    const passwordDecrypt = decryptedData(password);
 
     // check account existence
     const account = await findAccount(email);
@@ -84,7 +85,7 @@ exports.postLogin = async (req, res) => {
     }
 
     // check password
-    const isMatch = await bcrypt.compare(password, account.password);
+    const isMatch = await bcrypt.compare(passwordDecrypt, account.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Incorrect password' });
     }
