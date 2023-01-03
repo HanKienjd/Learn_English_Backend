@@ -76,28 +76,27 @@ exports.postLogin = async (req, res) => {
   try {
     const email = req.body.email?.toLowerCase();
     const { password } = req.body;
-    const passwordDecrypt = decryptedData(password);
+    // const passwordDecrypt = decryptedData(password);
     // check account existence
     const account = await findAccount(email);
     if (!account) {
       return res.status(406).json({ message: 'Account does not exist' });
     }
-
     // check password
-    const isMatch = await bcrypt.compare(passwordDecrypt, account.password);
+    const isMatch = await bcrypt.compare(password, account.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Incorrect password' });
     }
 
     // set cookie with jwt
     const token = await jwtConfig.encodedToken(
-      process.env.JWT_SECRET_KEY.replace(/\\n/gm, '\n'),
+      process.env.JWT_SECRET_KEY || 'amonino-serect',
       { accountId: account._id },
     );
 
     return res.status(200).json({
       message: 'success',
-      // token,
+      token,
     });
   } catch (error) {
     console.error('POST REGISTER ACCOUNT ERROR: ', error);

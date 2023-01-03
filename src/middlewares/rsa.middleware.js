@@ -1,6 +1,5 @@
 const crypto = require("crypto");
 const fs = require("fs");
-const path = require("path");
 
 exports.decryptedData = (encryptedData) => {
   const privateKey = fs.readFileSync("/home/hankien/Dev/KMA/Learn_English_Backend/rsa_2048_private_key.pem", "utf8");
