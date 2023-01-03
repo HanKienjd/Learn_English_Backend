@@ -77,7 +77,7 @@ exports.postLogin = async (req, res) => {
     const email = req.body.email?.toLowerCase();
     const { password } = req.body;
     const passwordDecrypt = decryptedData(password);
-
+    console.log("passwordDecrypt", passwordDecrypt);
     // check account existence
     const account = await findAccount(email);
     if (!account) {
